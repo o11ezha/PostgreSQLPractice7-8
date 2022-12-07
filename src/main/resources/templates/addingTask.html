@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новую задачу</title>
+</head>
+<body>
+<form th:action="@{/addingTask}" th:method="post" th:object="${taskDTO}">
+
+    <label for="taskCode" th:text="'Код задания:'"></label>
+    <input th:field="*{taskCode}" th:id="taskCode"
+           class="form-select form-select-sm" aria-label="form-select-sm example" required/>
+    <p style="color:red" th:errors="*{taskCode}" th:if="${#fields.hasErrors('taskCode')}" th:text="'Task code error'"></p>
+    <label style="color:red" th:text="${errorTask}"></label>
+    <br>
+
+    <label th:for="contractCode" th:text="'Контракт:'"></label>
+    <select th:field="*{contractCode}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:selected="selected" th:hidden="hidden" th:value="null">Выберите контракт</option>
+        <option th:value="null" th:text="'Нет'"></option>
+        <option th:each="contract : ${contracts}"
+                th:value="${contract.getContractCode()}"
+                th:text="${contract.getContractCode()}"></option>
+    </select>
+    <br>
+
+    <label th:for="workerCode" th:text="'Работник на работу:'"></label>
+    <select th:field="*{workerCode}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:selected="selected" th:hidden="hidden" th:value="null">Выберите работника</option>
+        <option th:value="null" th:text="'Нет'"></option>
+        <option th:each="worker : ${workers}"
+                th:value="${worker.getWorkerCode()}"
+                th:text="${worker.getWorkerName()}"></option>
+    </select>
+    <br>
+
+    <label th:for="taskPriority">Приоритет:</label>
+    <select th:field="*{taskPriority}" th:name="taskPriority" th:id="taskPriority" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:value="1" th:selected="selected" th:text="'Неважная'"></option>
+        <option th:value="2" th:text="'Не очень важная'"></option>
+        <option th:value="3" th:text="'Умеренно важная'"></option>
+        <option th:value="4" th:text="'Достаточно важная'"></option>
+        <option th:value="5" th:text="'Очень важная'"></option>
+    </select>
+    <br>
+
+    <label for="taskDescription" th:text="'Описание:'"></label>
+    <textarea th:field="*{taskDescription}" th:id="taskDescription"  class="form-select form-select-sm" aria-label="form-select-sm example" required></textarea>
+    <p style="color:red" th:errors="*{taskDescription}" th:if="${#fields.hasErrors('taskDescription')}" th:text="'Description error'"></p>
+    <br>
+
+    <label th:for="expirationDate" th:text="'Крайник срок сдачи:'"></label>
+    <input th:type="date" th:field="*{expirationDate}"
+           th:id="expirationDate"
+           th:min="2000-01-01" th:max="3000-12-31">
+
+    <p style="color:red" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></p>
+    <br>
+
+    <label> <input th:type="submit" th:value="Добавить"/> </label>
+
+</form>
+</body>
+</html>

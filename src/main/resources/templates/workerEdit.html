@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/user}" th:method="post">
+    <input th:type="text" th:name = "username" th:value="${account.getLogin()}">
+    <input th:type="text" th:name = "workerCode"  th:value = "${account.getWorkerCode().getWorkerCode()}">
+    <label th:for="roles"></label>
+    <select th:name="roles" th:id="roles">
+        <option th:selected = "${roleSelected.equals('employee')}" th:value="employee">employee</option>
+        <option th:selected = "${roleSelected.equals('manager')}" th:value="manager">manager</option>
+    </select>
+    <button th:type="submit">Save</button>
+</form>
+</body>
+</html>
+

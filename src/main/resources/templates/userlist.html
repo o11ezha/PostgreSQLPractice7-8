@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Список аккаунтов работников</p>
+<table>
+    <thead>
+    <tr>
+        <td th:text="'Имя'"></td>
+        <td th:text="'Роль'"></td>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="account: ${Accounts}">
+        <td th:text="${account.getLogin()}"></td>
+        <td th:text="${account.getRoleID().getRoleName().replace('_role', '')}"></td>
+        <td><a th:href="@{'/user/edit/' + ${account.getWorkerCode().getWorkerCode()}}">edit</a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
