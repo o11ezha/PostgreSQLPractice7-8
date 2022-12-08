@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<span th:if="${Tasks.isEmpty()}">У вас нет заданий</span>
+<div th:unless="${Tasks.isEmpty()}">
 <table>
     <thead>
     <tr>
@@ -23,28 +25,55 @@
     </tr>
     </thead>
     <tbody>
+
     <tr th:each="task: ${Tasks}">
         <td th:text="${task.getTaskCode()}"></td>
         <td>
-            <span th:if="${not (task.getContractCode().getContractCode() == null)}"
-              th:utext="${task.getContractCode().getContractCode()}"></span>
-            <span th:if="${(task.getContractCode().getContractCode() == null)}"
-                  th:utext="'Нет данных'"></span>
+            <span th:if="${not (task.getContractCode() == null)}">
+                <span th:utext="${task.getContractCode().getContractCode()}"></span>
+            </span>
+            <span th:if="${(task.getContractCode() == null)}">Нет данных</span>
         </td>
-        <td th:text="${task.getContractCode().getContractCode()}"></td>
         <td th:text="${task.getAuthorCode().getWorkerName()}"></td>
-        <td th:text="${worker.findWorkerByWorkerCode(task.getWorkerCode()).getWorkerName()}"></td>
-        <td th:text="${task.getTaskPriority()}"></td>
-        <td th:text="${task.getTaskStatus()}"></td>
+        <td>
+            <span th:if="${not (task.getWorkerCode() == null)}">
+                <span th:text="${worker.findWorkerByWorkerCode(task.getWorkerCode()).getWorkerName()}"></span>
+            </span>
+            <span th:if="${(task.getWorkerCode() == null)}">Не назначено</span>
+        </td>
+        <td th:switch="${task.getTaskPriority()}">
+            <span th:case="1" th:text="'Неважная'"></span>
+            <span th:case="2" th:text="'Не очень важная'"></span>
+            <span th:case="3" th:text="'Умеренно важная'"></span>
+            <span th:case="4" th:text="'Достаточно важная'"></span>
+            <span th:case="5" th:text="'Очень важная'"></span>
+        </td>
+        <td th:if ="${task.getTaskStatus() == false}" th:text="'Не завершено'"></td>
+        <td th:unless ="${task.getTaskStatus() == false}" th:text="'Завершено'"></td>
         <td th:text="${task.getTaskDescription()}"></td>
-        <td th:text="${task.getAddDate()}"></td>
-        <td th:text="${task.getActivationDate()}"></td>
-        <td th:text="${task.getExpirationDate()}"></td>
-        <td th:text="${task.getCompleteDate()}"></td>
-        <td><a th:href="@{}">edit</a></td>
+        <td th:text="${#dates.format(task.getAddDate(), 'dd-MM-yyyy')}"></td>
+        <td>
+            <span th:if="${not (task.getActivationDate() == null)}">
+                <span th:text="${#dates.format(task.getActivationDate(), 'dd-MM-yyyy')}"></span>
+            </span>
+            <span th:if="${(task.getActivationDate() == null)}">Не в работе</span>
+        </td>
+        <td>
+            <span th:if="${not (task.getExpirationDate() == null)}">
+                <span th:text="${#dates.format(task.getExpirationDate(), 'dd-MM-yyyy')}"></span>
+            </span>
+            <span th:if="${(task.getExpirationDate() == null)}">Бессрочно</span>
+        </td>
+        <td>
+            <span th:if="${not (task.getCompleteDate() == null)}">
+                <span th:text="${#dates.format(task.getCompleteDate(), 'dd-MM-yyyy')}"></span>
+            </span>
+            <span th:if="${(task.getCompleteDate() == null)}">Не закончено</span>
+        </td>
+        <td><a th:href="@{editTask/{taskCode}(taskCode=${task.getTaskCode()})}">edit</a></td>
     </tr>
     </tbody>
 </table>
-
+</div>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class TaskService {
     @Autowired
     AccountInfoRepo accountInfoRepo;
 
-    private Task convertDTOToTask(TaskDTO taskDTO, String login) throws ParseException {
+    public Task convertDTOToTask(TaskDTO taskDTO, String login) throws ParseException {
         ModelMapper model = new ModelMapper();
 
         model.getConfiguration()
@@ -72,13 +72,24 @@ public class TaskService {
         return task;
     }
 
+    public TaskDTO convertTaskToDTO(int taskCode) {
 
-    private TaskDTO convertTaskToDTO(int taskCode) {
-        return modelMapper.map(taskRepo.findByTaskCode(taskCode), TaskDTO.class);
+        ModelMapper model = new ModelMapper();
+
+        model.getConfiguration().setAmbiguityIgnored(true);
+
+        return model.map(taskRepo.findByTaskCode(taskCode), TaskDTO.class);
     }
 
     public List<Task> findAll() {
         return taskRepo.findAll();
+    }
+
+    public List<Task> findAllByAuthorCode(Worker authorCode) {
+        return taskRepo.findAllByAuthorCode(authorCode);
+    }
+    public List<Task> findAllByWorkerCode(String workerCode) {
+        return taskRepo.findAllByWorkerCode(workerCode);
     }
 
     public void createTask(TaskDTO taskDTO, String login) throws ParseException {
@@ -97,13 +108,47 @@ public class TaskService {
             ifnulldate = task.getExpirationDate();
         }
 
-
         taskRepo.addTask(task.getTaskCode(), login, task.getWorkerCode(),
                     task.getTaskPriority(), task.getTaskDescription(), null,
                     ifnullint, ifnulldate);
     }
 
+    public void finishTask(Task task){
+        taskRepo.editTaskStatus(task.getTaskCode(), null);
+    }
+
+    public Task findByTaskCode(Integer taskCode){
+        return taskRepo.findByTaskCode(taskCode);
+    }
+
     public List<Integer> findAllTaskCodes(){
         return taskRepo.allTaskCodes();
+    }
+
+    public void editTask(TaskDTO taskDTO, Integer taskCode) throws ParseException {
+        Task task = taskRepo.findByTaskCode(taskCode);
+        task.setAuthorCode(workerRepo.findByWorkerCode(taskDTO.getAuthorCode()));
+        task.setWorkerCode(taskDTO.getWorkerCode());
+        task.setTaskPriority(taskDTO.getTaskPriority());
+        task.setTaskDescription(taskDTO.getTaskDescription());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        Integer ifnullint = null;
+        Date ifnulldate = null;
+        if (!(taskDTO.getContractCode() == null)){
+            task.setContractCode(contractRepo.getByContractCode(taskDTO.getContractCode()));
+            ifnullint = task.getContractCode().getContractCode();
+        }
+
+        if (!(taskDTO.getExpirationDate().equals("1111-01-01"))){
+            task.setExpirationDate(format.parse(taskDTO.getExpirationDate()));
+            ifnulldate = task.getExpirationDate();
+        }
+
+        taskRepo.editTask(task.getTaskCode(), null, ifnullint,
+                task.getAuthorCode().getWorkerCode(), task.getWorkerCode(),
+                task.getTaskPriority(), task.getTaskDescription(),
+                ifnulldate);
     }
 }

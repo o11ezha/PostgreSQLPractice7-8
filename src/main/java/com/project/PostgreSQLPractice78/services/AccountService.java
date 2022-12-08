@@ -2,6 +2,7 @@ package com.project.PostgreSQLPractice78.services;
 
 import com.project.PostgreSQLPractice78.config.AccountDetails;
 import com.project.PostgreSQLPractice78.mainEntities.AccountInfo;
+import com.project.PostgreSQLPractice78.mainEntities.Worker;
 import com.project.PostgreSQLPractice78.repos.AccountInfoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,10 @@ public class AccountService implements UserDetailsService {
 
     public List<AccountInfo> findAll() {
         return accountInfoRepo.findAll();
+    }
+
+    public AccountInfo findBylogin(String username) {
+        return accountInfoRepo.findBylogin(username);
     }
 
     public void saveUser(String username, String workerCode, String roles) {

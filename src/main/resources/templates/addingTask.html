@@ -55,6 +55,7 @@
            th:min="2000-01-01" th:max="3000-12-31">
 
     <p style="color:red" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></p>
+    <label style="color:red" th:text="${errorDate}"></label>
     <br>
 
     <label> <input th:type="submit" th:value="Добавить"/> </label>

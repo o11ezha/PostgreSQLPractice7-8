@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/editTask/{taskCode}(taskCode=${taskCode})}" th:method="post" th:object="${taskDTO}">
+
+    <label th:for="contractCode" th:text="'Контракт:'"></label>
+
+    <select th:field="*{contractCode}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:value="null" th:text="'Нет'"></option>
+        <option th:each="contract : ${contracts}"
+                th:selected="${contract.getContractCode() eq taskDTO.getContractCode()}"
+                th:value="${contract.getContractCode()}"
+                th:text="${contract.getContractCode()}"></option>
+    </select>
+    <br>
+    <label th:if="${account.getRoleID().getRoleId() == 0}">
+    <label  th:for="authorCode" th:text="'Автор задания:'"></label>
+    <select th:field="*{authorCode}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:each="author : ${authors}"
+                th:selected="${author.getWorkerCode() eq taskDTO.getAuthorCode()}"
+                th:value="${author.getWorkerCode()}"
+                th:text="${author.getWorkerName()}"></option>
+    </select>
+    </label>
+    <br>
+
+    <label th:for="workerCode" th:text="'Работник на работу:'"></label>
+    <select th:field="*{workerCode}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:value="null" th:text="'Нет'"></option>
+        <option th:each="worker : ${workers}"
+                th:selected="${worker.getWorkerCode() eq taskDTO.getWorkerCode()}"
+                th:value="${worker.getWorkerCode()}"
+                th:text="${worker.getWorkerName()}"></option>
+    </select>
+    <br>
+
+    <label th:for="taskPriority">Приоритет:</label>
+    <select th:field="*{taskPriority}" th:name="taskPriority" th:id="taskPriority" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+        <option th:value="1" th:selected="${taskDTO.getTaskPriority() eq 1}"  th:text="'Неважная'"></option>
+        <option th:value="2" th:selected="${taskDTO.getTaskPriority() eq 2}" th:text="'Не очень важная'"></option>
+        <option th:value="3" th:selected="${taskDTO.getTaskPriority() eq 3}" th:text="'Умеренно важная'"></option>
+        <option th:value="4" th:selected="${taskDTO.getTaskPriority() eq 4}" th:text="'Достаточно важная'"></option>
+        <option th:value="5" th:selected="${taskDTO.getTaskPriority() eq 5}" th:text="'Очень важная'"></option>
+    </select>
+    <br>
+
+    <label for="taskDescription" th:text="'Описание:'"></label>
+    <textarea th:field="*{taskDescription}" th:id="taskDescription"  class="form-select form-select-sm" aria-label="form-select-sm example" required></textarea>
+    <p style="color:red" th:errors="*{taskDescription}" th:if="${#fields.hasErrors('taskDescription')}" th:text="'Description error'"></p>
+    <br>
+
+    <label th:for="expirationDate" th:text="'Крайник срок сдачи:'"></label>
+    <label>
+        <input th:type="date" th:field="*{expirationDate}"
+               th:id="expirationDate"
+               th:min="2000-01-01" th:max="3000-12-31">
+    </label>
+
+    <p style="color:red" th:if="${#fields.hasErrors('expirationDate')}" th:errors="*{expirationDate}"></p>
+    <label style="color:red" th:text="${errorDate}"></label>
+    <br>
+
+    <label> <input th:type="submit" th:value="Отредактровать"/> </label>
+
+
+    <script th:inline="javascript">
+        function help () {
+            const myDate = document.getElementById("expirationDate");
+            myDate.value = [[${#dates.format(expDate, 'yyyy-MM-dd')}]];
+        }
+
+        help()
+    </script>
+
+</form>
+
+</body>
+</html>
