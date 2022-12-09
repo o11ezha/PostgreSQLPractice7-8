@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -33,7 +35,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @GetMapping("/edit/"+"{accountCode}")
+    @GetMapping("/edit/{accountCode}")
     public String userEditForm(@PathVariable String accountCode, Model model){
         AccountInfo account = accountInfoRepo.findByworkerCode(workerRepo.findByWorkerCode(accountCode));
 
@@ -44,16 +46,17 @@ public class UserController {
         return "workerEdit";
     }
 
+    @Transactional
     @PreAuthorize("hasAuthority('admin')")
-    @PostMapping
+    @PostMapping("/edit/{accountCode}")
     public  String userSave(
             @RequestParam String username,
-            @RequestParam String workerCode,
+            @PathVariable @RequestParam(required=false) String accountCode,
             @RequestParam String roles,
-            @RequestParam("username") AccountInfo account,
-            Model model
-    ){
-        accountService.saveUser(username, workerCode, roles);
+            @RequestParam String password){
+        System.out.println(accountCode);
+
+        accountService.saveUser(username, accountCode, roles, password);
         return "redirect:/user";
     }
 

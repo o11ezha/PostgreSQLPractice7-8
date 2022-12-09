@@ -86,6 +86,10 @@ public class TaskController {
                              BindingResult bindingResult,
                              Principal principal, Model model) throws ParseException {
 
+        model.addAttribute("contracts", contractService.findAll());
+        model.addAttribute("TaskDTO", taskDTO);
+        model.addAttribute("workers", workerService.findAll());
+
         List<Integer> listOfCodes = taskService.findAllTaskCodes();
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -102,7 +106,7 @@ public class TaskController {
         }
 
         if (expDate.before(nowDate)) {
-            errorDate = "Введите уникальное значение кода задания";
+            errorDate = "Введите дату не раньше сегодняшней";
             model.addAttribute("errorDate", errorDate);
             return "addingTask";
         }
@@ -143,7 +147,7 @@ public class TaskController {
         Date expDate = format.parse(taskDTO.getExpirationDate());
 
         if (expDate.before(nowDate)) {
-            errorDate = "Введите уникальное значение кода задания";
+            errorDate = "Введите дату не раньше сегодняшней";
             model.addAttribute("errorDate", errorDate);
             return "editTask";
         }

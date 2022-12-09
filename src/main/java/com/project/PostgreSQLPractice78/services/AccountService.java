@@ -38,9 +38,10 @@ public class AccountService implements UserDetailsService {
         return accountInfoRepo.findBylogin(username);
     }
 
-    public void saveUser(String username, String workerCode, String roles) {
+    @Transactional
+    public void saveUser(String username, String workerCode, String roles, String password) {
 
-        int role = -1;
+        Integer role = -1;
 
         switch (roles) {
             case "manager":
@@ -49,7 +50,12 @@ public class AccountService implements UserDetailsService {
                 role = 2;
         }
 
-        //Вызов процедуры
+        System.out.println(workerCode);
+        System.out.println(role);
+        System.out.println(username);
+        System.out.println(password);
+
+        accountInfoRepo.editAccount(workerCode,null, role, username, password );
 
     }
 }
