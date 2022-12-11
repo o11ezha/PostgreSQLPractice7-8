@@ -30,4 +30,20 @@ public class AccountInfo {
     public WorkerRole getRoleID() {
         return roleID;
     }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+
+    public void setWorkerCode(Worker workerCode) {
+        this.workerCode = workerCode;
+    }
+
+    public void setRoleID(WorkerRole roleID) {
+        this.roleID = roleID;
+    }
 }

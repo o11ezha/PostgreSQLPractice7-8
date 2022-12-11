@@ -5,6 +5,37 @@
     <title>Title</title>
 </head>
 <body>
+<form th:action="@{/users/new}" th:method="post">
+    <label>
+        Введите логин:
+        <input th:type="text" th:name = "username">
+        <label style="color:red" th:text="${errorUserName}"></label>
+    </label>
+    <br>
+    <label>
+        Введите код работника:
+        <input th:type="text" th:name = "accountCode">
+        <label style="color:red" th:text="${errorWorkerCode}"></label>
+    </label>
+    <br>
+    <label>
+        Введите пароль:
+        <input th:type="text" th:id = "password" th:name = "password">
+        <input th:type="checkbox" th:onclick="myFunction()"> Show Password
+    </label>
+    <button th:type="submit">Save</button>
+</form>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -6,6 +6,7 @@
 </head>
 <body>
 <p>Список аккаунтов работников</p>
+<td><a th:href="@{'/users/new'}">Создать аккаунт для нового раба</a></td>
 <table>
     <thead>
     <tr>
@@ -18,7 +19,7 @@
     <tr th:each="account: ${Accounts}">
         <td th:text="${account.getLogin()}"></td>
         <td th:text="${account.getRoleID().getRoleName().replace('_role', '')}"></td>
-        <td><a th:href="@{'/user/edit/' + ${account.getWorkerCode().getWorkerCode()}}">edit</a></td>
+        <td><a th:href="@{'/users/edit/' + ${account.getWorkerCode().getWorkerCode()}}">edit</a></td>
     </tr>
     </tbody>
 </table>

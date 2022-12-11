@@ -8,11 +8,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.Transient;
+import java.util.List;
 
 public interface AccountInfoRepo extends JpaRepository<AccountInfo, String> {
     AccountInfo findBylogin(String username);
     AccountInfo findByworkerCode(Worker workercode);
+    @Query (value = "SELECT login FROM account_info", nativeQuery = true)
+    List<String> findAllLogins();
 
+    @Transactional
+    @Query(value = "CALL add_user(:user_login, :user_password, :user_code, :resultproc);", nativeQuery = true)
+    Boolean addUser(@Param("user_login") String login,
+                        @Param("user_password") String hashPassword,
+                        @Param("user_code") String workerCode,
+                        @Param("resultproc") Boolean resultProc);
 
     @Transactional
     @Query(value = "CALL edit_account(:account_code, :resultproc, :new_role, :new_login, :new_password);", nativeQuery = true)

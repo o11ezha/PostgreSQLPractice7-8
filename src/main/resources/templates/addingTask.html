@@ -5,7 +5,7 @@
     <title>Добавить новую задачу</title>
 </head>
 <body>
-<form th:action="@{/addingTask}" th:method="post" th:object="${taskDTO}">
+<form th:action="@{/manageTasks/addingTask}" th:method="post" th:object="${taskDTO}">
 
     <label for="taskCode" th:text="'Код задания:'"></label>
     <input th:field="*{taskCode}" th:id="taskCode"

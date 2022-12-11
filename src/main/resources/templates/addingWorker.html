@@ -5,6 +5,47 @@
     <title>Title</title>
 </head>
 <body>
+<form th:action="@{/manageWorkers/addingWorker}" th:method="post" th:object="${workerDTO}">
 
+    <label th:for="workerCode" th:text="'Код нового работника:'"></label>
+    <input th:field="*{workerCode}" th:id="workerCode"
+           class="form-select form-select-sm" aria-label="form-select-sm example" required/>
+    <p style="color:red" th:errors="*{workerCode}" th:if="${#fields.hasErrors('workerCode')}" th:text="'Worker code error'"></p>
+    <label style="color:red" th:text="${errorCode}"></label>
+    <br>
+
+    <label th:for="roleID"></label>
+    <label>
+        <select th:field="*{roleID}" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+            <option th:selected="selected" th:hidden="hidden" th:value="null">Выберите роль</option>
+            <option th:each="roles : ${rolesList}"
+                    th:value="${roles.getRoleId()}"
+                    th:text="${roles.getRoleName().replace('_role', '')}"></option>
+        </select>
+    </label>
+    <br>
+
+    <label th:for="workerName" th:text="'Имя нового работника:'"></label>
+    <input th:field="*{workerName}" th:id="workerName"
+           class="form-select form-select-sm" aria-label="form-select-sm example" required/>
+    <p style="color:red" th:errors="*{workerName}" th:if="${#fields.hasErrors('workerName')}" th:text="'Worker name error'"></p>
+    <br>
+
+    <label th:for="workerTelephone" th:text="'Телефон нового работника:'"></label>
+    <input th:field="*{workerTelephone}" th:id="workerTelephone"
+           class="form-select form-select-sm" aria-label="form-select-sm example" required/>
+    <p style="color:red" th:errors="*{workerTelephone}" th:if="${#fields.hasErrors('workerTelephone')}" th:text="'Worker name error'"></p>
+    <br>
+
+    <label th:for="workerEmail" th:text="'Почта нового работника:'"></label>
+    <input th:field="*{workerEmail}" th:id="workerEmail"
+           class="form-select form-select-sm" aria-label="form-select-sm example" required/>
+    <p style="color:red" th:errors="*{workerEmail}" th:if="${#fields.hasErrors('workerEmail')}" th:text="'Worker name error'"></p>
+    <label style="color:red" th:text="${errorMail}"></label>
+    <label style="color:red" th:text="${errorExMail}"></label>
+    <br>
+
+    <label> <input th:type="submit" th:value="Добавить"/> </label>
+</form>
 </body>
 </html>

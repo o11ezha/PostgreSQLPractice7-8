@@ -9,6 +9,7 @@ import com.project.PostgreSQLPractice78.services.ContractService;
 import com.project.PostgreSQLPractice78.services.TaskService;
 import com.project.PostgreSQLPractice78.services.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,7 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
+    @PreAuthorize("hasAnyAuthority('manager', 'admin')" )
     @GetMapping("/manageTasks")
     public String manageTasks(Principal principal,  Model model){
 
@@ -70,7 +72,8 @@ public class TaskController {
     }
 
 
-    @GetMapping("/addingTask")
+    @PreAuthorize("hasAnyAuthority('manager', 'admin')" )
+    @GetMapping("/manageTasks/addingTask")
     public String createTask(@ModelAttribute("taskDTO") TaskDTO taskDTO, Model model) {
 
         model.addAttribute("contracts", contractService.findAll());
@@ -79,11 +82,12 @@ public class TaskController {
         return "addingTask";
     }
 
-    @PostMapping("/addingTask")
+    @PreAuthorize("hasAnyAuthority('manager', 'admin')" )
+    @PostMapping("/manageTasks/addingTask")
     public String createTask(@ModelAttribute("taskDTO") @Valid TaskDTO taskDTO,
+                             BindingResult bindingResult,
                              String errorTask,
                              String errorDate,
-                             BindingResult bindingResult,
                              Principal principal, Model model) throws ParseException {
 
         model.addAttribute("contracts", contractService.findAll());
@@ -99,7 +103,11 @@ public class TaskController {
         Date expDate = format.parse(taskDTO.getExpirationDate());
 
 
-        if (bindingResult.hasErrors() || listOfCodes.contains(taskDTO.getTaskCode())){
+        if (bindingResult.hasErrors()){
+            return "addingTask";
+        }
+
+        if (listOfCodes.contains(taskDTO.getTaskCode())) {
             errorTask = "Введите уникальное значение кода задания";
             model.addAttribute("errorTask", errorTask);
             return "addingTask";
@@ -115,15 +123,14 @@ public class TaskController {
 
         taskService.createTask(taskDTO, principal.getName());
 
-        return "main";
+        return "redirect:/manageTasks";
     }
 
 
-    @GetMapping("/editTask/{taskCode}")
+    @PreAuthorize("hasAnyAuthority('manager', 'admin')" )
+    @GetMapping("/manageTasks/editTask/{taskCode}")
     public String editTask(@PathVariable Integer taskCode, Principal principal, Model model) throws ParseException {
         IdenticalPart( taskCode, principal, model);
-
-        System.out.println(taskService.findByTaskCode(taskCode).getExpirationDate());
 
         if (taskService.findByTaskCode(taskCode).getExpirationDate() != null) {
             model.addAttribute("expDate", taskService.findByTaskCode(taskCode).getExpirationDate());
@@ -131,7 +138,8 @@ public class TaskController {
         return "editTask";
     }
 
-    @PostMapping("/editTask/{taskCode}")
+    @PreAuthorize("hasAnyAuthority('manager', 'admin')" )
+    @PostMapping("/manageTasks/editTask/{taskCode}")
     public String editTask(@PathVariable Integer taskCode,
                              @ModelAttribute("taskDTO") @Valid TaskDTO taskDTO,
                              String errorDate,

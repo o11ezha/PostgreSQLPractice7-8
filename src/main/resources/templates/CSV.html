@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/CSV}" th:method="post">
+
+
+<select th:name="workerCode" class="form-select form-select-sm" aria-label="form-select-sm example" required>
+  <option th:selected="selected" th:hidden="hidden" th:value="null">Выберите работника</option>
+  <option th:each="worker : ${workers}"
+          th:value="${worker.getWorkerCode()}"
+          th:text="${worker.getWorkerName()}"></option>
+</select>
+    <label style="color:red" th:text="${errorWorkerCode}"></label> <br>
+
+  <label th:text="'С этой даты: '"></label>
+  <input th:type="date" th:name="fromDate"
+         th:id="fromDate"
+         th:min="2000-01-01" th:max="3000-12-31">
+    <label style="color:red" th:text="${errorFromDate}"></label><br>
+
+  <label th:text="'До этой даты: '"></label>
+  <input th:type="date" th:name="toDate"
+         th:id="toDate"
+         th:min="2000-01-01" th:max="3000-12-31">
+    <label style="color:red" th:text="${errorDate}"></label>
+    <label style="color:red" th:text="${errorToDate}"></label><br>
+
+    <label th:text = "'Путь на компьютере:'"></label>
+    <input th:name="path">
+    <label style="color:red" th:text="${errorUserComp}"></label><br>
+
+    <label> <input th:type="submit" th:value="Добавить"/> </label>
+</form>
+</body>
+</html>

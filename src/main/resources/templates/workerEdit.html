@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/user/edit/{accountCode}(accountCode=${accountCode})}" th:method="post">
-    <label>
+<form th:action="@{/users/edit/{accountCode}(accountCode=${accountCode})}" th:method="post">
+    <label>Логин:
         <input th:type="text" th:name = "username" th:value="${account.getLogin()}">
-    </label>
-    <label>
+    </label><br>
+    <label>Код работника:
         <input th:readonly="readonly" th:type="text" th:name = "accountCode"  th:value = "${accountCode}">
-    </label>
-    <label th:for="roles"></label>
+    </label><br>
+    <label th:for="roles"></label>'Роль:
     <label>
         <select th:name="roles" th:id="roles">
             <option th:selected = "${roleSelected.equals('employee')}" th:value="employee">employee</option>
             <option th:selected = "${roleSelected.equals('manager')}" th:value="manager">manager</option>
         </select>
-    </label>
-    <label>
+    </label><br>
+    <label>Пароль:
         <input th:type="text" th:name = "password">
-    </label>
+    </label><br>
     <button th:type="submit">Save</button>
 </form>
 </body>

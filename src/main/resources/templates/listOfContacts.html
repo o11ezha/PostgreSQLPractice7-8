@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Список контактов: </p>
+<table>
+  <thead>
+  <tr>
+    <td th:text="'Код клиента'"></td>
+    <td th:text="'Код Организации'"></td>
+    <td th:text="'Имя клиента'"></td>
+    <td th:text="'Телефон'"></td>
+    <td th:text="'Почтовый код'"></td>
+    <td th:text="'Email'"></td>
+    <td th:text="'Адресс'"></td>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="client: ${clients}">
+    <td th:text="${client.getClientCode()}"></td>
+    <td th:if = "${client.getOrganisationCode() != null}" th:text="${client.getOrganisationCode().getOrganisationCode()}"></td>
+    <td th:if = "${client.getOrganisationCode() == null}" th:text="'Не придалежит организации'"></td>
+    <td th:text="${client.getClientName()}"></td>
+    <td th:text="${client.getClientTelephone()}"></td>
+    <td th:text="${client.getClientPostalCode()}"></td>
+    <td th:text="${client.getClientEmail()}"></td>
+    <td th:text="${client.getClientAddress()}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

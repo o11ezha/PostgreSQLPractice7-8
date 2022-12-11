@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+<a th:href="@{/manageTasks/addingTask}">Добавить новое задание</a>
 <span th:if="${Tasks.isEmpty()}">У вас нет заданий</span>
 <div th:unless="${Tasks.isEmpty()}">
 <table>
@@ -70,7 +71,7 @@
             </span>
             <span th:if="${(task.getCompleteDate() == null)}">Не закончено</span>
         </td>
-        <td><a th:href="@{editTask/{taskCode}(taskCode=${task.getTaskCode()})}">edit</a></td>
+        <td><a th:href="@{/manageTasks/editTask/{taskCode}(taskCode=${task.getTaskCode()})}">edit</a></td>
     </tr>
     </tbody>
 </table>

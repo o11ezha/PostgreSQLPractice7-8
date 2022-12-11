@@ -41,4 +41,12 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
                            @Param("new_task_priority") Integer newTaskPriority,
                            @Param("new_task_description") String newTaskDescription,
                            @Param("new_expiration_date") Date newExpirationDate);
+
+
+    @Query(value = "CALL export_to_excel(:selected_worker, :begin_date, :end_date, :path, :resultproc);", nativeQuery = true)
+    Boolean createCSVPROC(@Param("selected_worker") String selectedWorker,
+                                 @Param("begin_date") Date beginDate,
+                                 @Param("end_date") Date endDate,
+                                 @Param("path") String path,
+                                 @Param("resultproc") Boolean resultProc);
 }

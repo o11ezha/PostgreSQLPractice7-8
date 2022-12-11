@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
+
 @Controller
 public class MainController {
 
@@ -18,11 +20,10 @@ public class MainController {
     @Autowired
     private AccountInfoRepo accountInfoRepo;
 
-    @Autowired
-    private ContractRepo contractRepo;
-
     @GetMapping("/main")
-    public String main(Model model) {
+    public String main(Principal principal, Model model) {
+
+        model.addAttribute("roleName", accountInfoRepo.findBylogin(principal.getName()).getRoleID().getRoleName().replace("_role", ""));
 
         return "main";
     }

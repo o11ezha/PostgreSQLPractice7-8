@@ -72,7 +72,7 @@ public class TaskService {
         return task;
     }
 
-    public TaskDTO convertTaskToDTO(int taskCode) {
+    public TaskDTO convertTaskToDTO(Integer taskCode) {
 
         ModelMapper model = new ModelMapper();
 

@@ -35,4 +35,24 @@ public class Worker {
     public String getWorkerEmail() {
         return workerEmail;
     }
+
+    public void setWorkerCode(String workerCode) {
+        this.workerCode = workerCode;
+    }
+
+    public void setRoleID(WorkerRole roleID) {
+        this.roleID = roleID;
+    }
+
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
+    }
+
+    public void setWorkerTelephone(Long workerTelephone) {
+        this.workerTelephone = workerTelephone;
+    }
+
+    public void setWorkerEmail(String workerEmail) {
+        this.workerEmail = workerEmail;
+    }
 }

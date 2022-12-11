@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/editTask/{taskCode}(taskCode=${taskCode})}" th:method="post" th:object="${taskDTO}">
+<form th:action="@{/manageTasks/editTask/{taskCode}(taskCode=${taskCode})}" th:method="post" th:object="${taskDTO}">
 
     <label th:for="contractCode" th:text="'Контракт:'"></label>
 

@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div><p th:text="'Hello,user!'"></p></div>
-    <a th:href="@{/addingTask}">MAIN PAGE</a>
+<div><p th:text="'Hello,'">[[${#httpServletRequest.remoteUser}]]</p></div>
+<a th:href="@{/main}">Начать работать</a><br>
 </body>
 </html>

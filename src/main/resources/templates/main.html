@@ -11,6 +11,12 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
+    <a th:href="@{/toDo}">Задание на выполнение</a><br>
+    <a th:unless="${roleName == 'employee'}" th:href="@{/manageTasks}">Управлять заданиями</a><br>
+    <a th:unless="${roleName == 'employee'}" th:href="@{/CSV}">Составить отчёт</a><br>
+    <a th:unless="${roleName == 'employee'}"th:href="@{/clients}">Список контактов</a><br>
+    <a th:unless="${roleName == 'employee'}" th:href="@{/manageWorkers}">Список работников</a><br>
+    <a th:if="${roleName == 'admin'}" th:href="@{/users}">Управлять аккаунтами</a><br>
 </div>
 </body>
 </html>
